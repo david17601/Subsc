@@ -41,7 +41,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Obsługa rejestracji
         registerText.setOnClickListener {
-            Toast.makeText(this, "Opcja rejestracji wkrótce dostępna", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 }

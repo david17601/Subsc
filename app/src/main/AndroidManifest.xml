@@ -16,6 +16,9 @@
         <!-- Główna aktywność aplikacji -->
         <activity android:name=".Subs1Activity" android:exported="false" />
 
+        <!-- Ekran rejestracji -->
+        <activity android:name=".RegisterActivity" android:exported="false" />
     </application>
+
 
 </manifest>
