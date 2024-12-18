@@ -25,6 +25,13 @@ class RegisterActivity : AppCompatActivity() {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
 
+            // Walidacja pola email
+            if (!email.contains("@")) {
+                Toast.makeText(this, "Niepoprawny adres e-mail! Musi zawierać '@'.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Sprawdzenie, czy wszystkie pola są wypełnione
             if (login.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
                 // Możesz tu dodać logikę, np. zapis do bazy danych
                 Toast.makeText(this, "Konto utworzone pomyślnie!", Toast.LENGTH_SHORT).show()
