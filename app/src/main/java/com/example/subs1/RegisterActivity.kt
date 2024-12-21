@@ -77,9 +77,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        navigateToLogin()
-    }
 
     private fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
