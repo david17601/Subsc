@@ -9,15 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:padding="16dp">
+
+        <!-- Pusty element, który przesunie elementy w górę -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <!-- Logo aplikacji -->
         <ImageView
             android:id="@+id/logoImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_gravity="center"
             android:src="@drawable/logo"
             android:contentDescription="@string/app_name"
             android:layout_marginBottom="24dp" />
@@ -29,7 +34,10 @@
             android:layout_height="wrap_content"
             android:hint="Login"
             android:inputType="text"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/teal_200"
+            android:textColor="@color/purple_700"
+            android:padding="10dp" />
 
         <!-- Pole hasła -->
         <EditText
@@ -38,7 +46,10 @@
             android:layout_height="wrap_content"
             android:hint="Hasło"
             android:inputType="textPassword"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/teal_200"
+            android:textColor="@color/teal_200"
+            android:padding="10dp" />
 
         <!-- Kontener przycisków logowania i resetu -->
         <LinearLayout
@@ -51,18 +62,26 @@
             <!-- Przycisk Zaloguj -->
             <Button
                 android:id="@+id/loginButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zaloguj" />
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/teal_200"
+                android:textColor="@android:color/white"
+                android:text="Zaloguj"
+                android:layout_marginEnd="8dp" />
 
             <!-- Przycisk Zapomniałem hasła -->
             <Button
                 android:id="@+id/forgotPasswordButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zapomniałem hasła"
-                android:layout_marginStart="8dp" />
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/teal_200"
+                android:textColor="@android:color/white"
+                android:text="Zapomniałem hasła" />
         </LinearLayout>
+
+
 
         <!-- Tekst do rejestracji -->
         <TextView
@@ -70,10 +89,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nie masz jeszcze konta? Zarejestruj się"
-            android:textColor="@android:color/holo_blue_light"
+            android:textColor="@color/teal_200"
             android:textSize="16sp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="3" />
     </LinearLayout>
 </ScrollView>

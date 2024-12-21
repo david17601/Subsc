@@ -1,9 +1,15 @@
 <resources>
-    <style name="Theme.Subs1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorOnSecondary">@android:color/black</item>
-    </style>
+
+        <style name="Theme.Subs1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+            <item name="colorPrimary">@color/purple_500</item>
+            <item name="colorPrimaryVariant">@color/purple_700</item>
+            <item name="colorOnPrimary">@android:color/white</item>
+            <item name="colorSecondary">@color/teal_200</item>
+            <item name="colorOnSecondary">@android:color/black</item>
+            <item name="android:statusBarColor">@color/white</item>
+            <item name="android:windowLightStatusBar">true</item>
+        </style>
+
+
+
 </resources>
