@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -11,7 +12,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val DATABASE_NAME = "users.db"
         private const val DATABASE_VERSION = 1
 
-        // Nazwa tabeli i kolumn
         private const val TABLE_USERS = "users"
         private const val COLUMN_ID = "id"
         private const val COLUMN_LOGIN = "login"
@@ -23,20 +23,21 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         val createTableQuery = """
             CREATE TABLE $TABLE_USERS (
                 $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                $COLUMN_LOGIN TEXT NOT NULL,
-                $COLUMN_EMAIL TEXT NOT NULL,
+                $COLUMN_LOGIN TEXT NOT NULL UNIQUE,
+                $COLUMN_EMAIL TEXT NOT NULL UNIQUE,
                 $COLUMN_PASSWORD TEXT NOT NULL
             )
         """
         db.execSQL(createTableQuery)
+        Log.d("DatabaseHelper", "Table created: $TABLE_USERS")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
         onCreate(db)
+        Log.d("DatabaseHelper", "Database upgraded from version $oldVersion to $newVersion")
     }
 
-    // Dodawanie użytkownika
     fun addUser(login: String, email: String, password: String): Boolean {
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -49,7 +50,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return result != -1L
     }
 
-    // Sprawdzanie danych logowania
+    fun isUserExists(login: String, email: String): Boolean {
+        val db = readableDatabase
+        val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_LOGIN = ? OR $COLUMN_EMAIL = ?"
+        val cursor = db.rawQuery(query, arrayOf(login, email))
+        val exists = cursor.count > 0
+        cursor.close()
+        db.close()
+        return exists
+    }
+
     fun checkUser(login: String, password: String): Boolean {
         val db = readableDatabase
         val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_LOGIN = ? AND $COLUMN_PASSWORD = ?"

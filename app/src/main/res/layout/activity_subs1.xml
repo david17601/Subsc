@@ -1,40 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/nameInput"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nazwa subskrypcji" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/priceInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Cena (PLN)"
-        android:inputType="numberDecimal" />
+        <!-- Pole nazwy subskrypcji -->
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nazwa subskrypcji"
+            android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/dateInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Data odnowienia (yyyy-mm-dd)" />
+        <!-- Pole ceny subskrypcji -->
+        <EditText
+            android:id="@+id/priceInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cena (PLN)"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="8dp" />
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dodaj subskrypcję" />
+        <!-- Pole daty odnowienia -->
+        <EditText
+            android:id="@+id/dateInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Data odnowienia (yyyy-mm-dd)"
+            android:layout_marginBottom="16dp" />
 
-    <TextView
-        android:id="@+id/listTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lista subskrypcji pojawi się tutaj"
-        android:paddingTop="16dp" />
-</LinearLayout>
+        <!-- Przycisk dodania subskrypcji -->
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dodaj subskrypcję"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Lista subskrypcji -->
+        <TextView
+            android:id="@+id/listTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lista subskrypcji pojawi się tutaj"
+            android:paddingTop="16dp"
+            android:textSize="16sp"
+            android:gravity="start" />
+    </LinearLayout>
+</ScrollView>

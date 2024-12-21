@@ -6,7 +6,10 @@
         android:icon="@mipmap/ic_launcher">
 
         <!-- Ekran logowania -->
-        <activity android:name=".LoginActivity" android:exported="true">
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -14,11 +17,16 @@
         </activity>
 
         <!-- Główna aktywność aplikacji -->
-        <activity android:name=".Subs1Activity" android:exported="false" />
+        <activity
+            android:name=".Subs1Activity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Ekran rejestracji -->
-        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
-
 
 </manifest>
