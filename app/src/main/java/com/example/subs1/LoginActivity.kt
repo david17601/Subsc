@@ -29,6 +29,13 @@ class LoginActivity : AppCompatActivity() {
             val login = loginInput.text.toString()
             val password = passwordInput.text.toString()
 
+            // Sprawdź, czy oba pola są wypełnione
+            if (login.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Proszę wypełnić wszystkie pola.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Sprawdź, czy dane są poprawne
             if (dbHelper.checkUser(login, password)) {
                 Toast.makeText(this, "Logowanie pomyślne!", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, Subs1Activity::class.java))

@@ -36,7 +36,8 @@
             android:inputType="text"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/teal_200"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/edit_text_text"
+            android:textColorHint="@color/edit_text_hint"
             android:padding="10dp" />
 
         <!-- Pole hasła -->
@@ -48,7 +49,8 @@
             android:inputType="textPassword"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/teal_200"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/edit_text_text"
+            android:textColorHint="@color/edit_text_hint"
             android:padding="10dp" />
 
         <!-- Kontener przycisków logowania i resetu -->
@@ -80,8 +82,6 @@
                 android:textColor="@android:color/white"
                 android:text="Zapomniałem hasła" />
         </LinearLayout>
-
-
 
         <!-- Tekst do rejestracji -->
         <TextView
