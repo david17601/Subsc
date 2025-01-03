@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_add_subscription"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Dodaj Subskrypcję" />
+    <item
+        android:id="@+id/nav_costs"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Koszty" />
+    <item
+        android:id="@+id/nav_upcoming_payments"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Nadchodzące Płatności" />
+    <item
+        android:id="@+id/nav_account_options"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Opcje Konta" />
+</menu>

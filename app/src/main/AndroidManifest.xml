@@ -20,13 +20,15 @@
         <!-- Główna aktywność aplikacji -->
         <activity
             android:name=".Subs1Activity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Subs1" />
 
         <!-- Ekran rejestracji -->
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
     </application>
 </manifest>
