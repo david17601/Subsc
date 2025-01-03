@@ -29,24 +29,27 @@ class Subs1Activity : AppCompatActivity() {
         // Domyślne ładowanie HomeFragment
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
-            navigationView.setCheckedItem(R.id.nav_home) // Zaznacz domyślnie Home
+            navigationView.setCheckedItem(R.id.nav_home)
         }
 
         // Obsługa nawigacji w NavigationView
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            if (!menuItem.isChecked) { // Zmień tylko, jeśli wybierana zakładka jest inna
-                val fragment: Fragment = when (menuItem.itemId) {
-                    R.id.nav_home -> HomeFragment()
-                    R.id.nav_add_subscription -> AddSubscriptionFragment()
-                    R.id.nav_costs -> CostsFragment()
-                    R.id.nav_upcoming_payments -> UpcomingPaymentsFragment()
-                    R.id.nav_account_options -> AccountOptionsFragment()
-                    else -> HomeFragment() // Domyślny fragment
-                }
-
-                loadFragment(fragment) // Załaduj nowy fragment
-                menuItem.isChecked = true // Ustaw aktywny element
+            val menu = navigationView.menu
+            for (i in 0 until menu.size()) {
+                menu.getItem(i).isChecked = false
             }
+            menuItem.isChecked = true
+
+            val fragment: Fragment = when (menuItem.itemId) {
+                R.id.nav_home -> HomeFragment()
+                R.id.nav_add_subscription -> AddSubscriptionFragment()
+                R.id.nav_costs -> CostsFragment()
+                R.id.nav_upcoming_payments -> UpcomingPaymentsFragment()
+                R.id.nav_account_options -> AccountOptionsFragment()
+                else -> HomeFragment()
+            }
+
+            loadFragment(fragment)
             drawerLayout.closeDrawers()
             true
         }
