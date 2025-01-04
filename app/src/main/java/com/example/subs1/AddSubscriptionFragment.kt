@@ -64,7 +64,7 @@ class AddSubscriptionFragment : Fragment() {
         priceInput.doAfterTextChanged {
             if (!it.isNullOrEmpty() && !it.endsWith(" zł")) {
                 priceInput.setText("${it} zł")
-                priceInput.setSelection(priceInput.text.length - 3) // Przesuń kursor przed " zł"
+                priceInput.setSelection(priceInput.text.length - 3)
             }
         }
 
@@ -155,13 +155,12 @@ class AddSubscriptionFragment : Fragment() {
                 if (added) {
                     Toast.makeText(context, "Subskrypcja dodana!", Toast.LENGTH_SHORT).show()
                     hideKeyboard()
-                    // Czyszczenie pól po dodaniu subskrypcji
                     nameInput.text.clear()
                     priceInput.text.clear()
                     startDateInput.text.clear()
                     selectedImage = null
-                    selectedImageView.setImageBitmap(null) // Czyszczenie ImageView
-                    selectedImageView.visibility = View.GONE // Ukrywanie ImageView
+                    selectedImageView.setImageBitmap(null)
+                    selectedImageView.visibility = View.GONE
                 } else {
                     Toast.makeText(context, "Błąd podczas dodawania subskrypcji!", Toast.LENGTH_SHORT).show()
                 }

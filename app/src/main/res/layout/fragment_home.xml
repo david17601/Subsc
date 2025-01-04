@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Sekcja dla miesięcznych subskrypcji -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +33,6 @@
             android:padding="16dp"
             android:visibility="gone" />
 
-        <!-- Sekcja dla rocznych subskrypcji -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

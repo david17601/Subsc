@@ -58,7 +58,7 @@ class SubscriptionAdapter(
 
         fun bind(subscription: Subscription) {
             nameTextView.text = subscription.name
-            nameTextView.textSize = 18f // Powiększenie tekstu nazwy subskrypcji
+            nameTextView.textSize = 18f
             priceTextView.text = formatPrice(subscription.price)
             renewalDateTextView.text = "Następna płatność: ${calculateNextPaymentDate(subscription.renewalDate, subscription.frequency)}"
 

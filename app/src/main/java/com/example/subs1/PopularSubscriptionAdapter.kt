@@ -35,13 +35,10 @@ class PopularSubscriptionAdapter(
         private val nameTextView: TextView = itemView.findViewById(R.id.popularSubscriptionName)
 
         fun bind(subscription: PopularSubscription) {
-            // Ustawienie ikony
             logoImageView.setImageResource(subscription.logoResId)
 
-            // Ustawienie nazwy
             nameTextView.text = subscription.name
 
-            // Obsługa kliknięcia
             itemView.setOnClickListener {
                 onSubscriptionClick(subscription)
             }

@@ -23,7 +23,7 @@ class RegisterActivity : AppCompatActivity() {
         val emailEditText = findViewById<EditText>(R.id.registerEmailInput)
         val passwordEditText = findViewById<EditText>(R.id.registerPasswordInput)
         val registerButton = findViewById<Button>(R.id.registerButton)
-        val backToLoginText = findViewById<TextView>(R.id.backToLogin) // Dodano obsługę TextView
+        val backToLoginText = findViewById<TextView>(R.id.backToLogin)
 
         registerButton.setOnClickListener {
             val name = nameEditText.text.toString()
@@ -59,11 +59,10 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-        // Dodano obsługę kliknięcia na "Masz już konto? Zaloguj się"
         backToLoginText.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish() // Zamknij ekran rejestracji
+            finish()
         }
     }
 }

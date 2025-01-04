@@ -55,7 +55,6 @@ class Subs1Activity : AppCompatActivity() {
     }
 
     private fun logout() {
-        // Usunięcie stanu logowania
         sharedPreferences.edit().putBoolean("is_logged_in", false).apply()
 
         val intent = Intent(this, LoginActivity::class.java)

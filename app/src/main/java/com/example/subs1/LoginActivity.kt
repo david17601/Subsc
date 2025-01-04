@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
-        // Sprawdzenie czy użytkownik jest już zalogowany
         if (isLoggedIn()) {
             navigateToHome()
         }
@@ -31,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         val registerText = findViewById<TextView>(R.id.registerText)
 
-        // Obsługa logowania
         loginButton.setOnClickListener {
             val loginOrEmail = loginEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -48,7 +46,6 @@ class LoginActivity : AppCompatActivity() {
                     setLoggedIn()
                     Toast.makeText(this, "Logowanie zakończone sukcesem", Toast.LENGTH_SHORT).show()
 
-                    // Przejście do głównego ekranu
                     navigateToHome()
                 } else {
                     cursor.close()
@@ -59,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Obsługa przejścia na ekran rejestracji
         registerText.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
