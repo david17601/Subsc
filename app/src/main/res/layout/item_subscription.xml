@@ -4,30 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/subscriptionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Subscription Name"
-        android:textSize="16sp"
+        android:text="Nazwa subskrypcji"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/subscriptionPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price"
-        android:textSize="14sp"
-        android:layout_marginBottom="4dp" />
+        android:text="Cena" />
 
     <TextView
         android:id="@+id/subscriptionRenewalDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Renewal Date"
-        android:textSize="14sp" />
+        android:text="Data odnowienia" />
 </LinearLayout>

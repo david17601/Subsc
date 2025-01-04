@@ -18,11 +18,11 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Ustawienie niestandardowego paska narzędzi
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Wyświetl strzałkę powrotu
-        supportActionBar?.title = "" // Usuń tytuł
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         dbHelper = DatabaseHelper(this)
 

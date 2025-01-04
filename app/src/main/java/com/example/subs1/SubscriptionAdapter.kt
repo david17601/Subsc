@@ -7,13 +7,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 data class Subscription(
+    val id: Int,
     val name: String,
     val price: Double,
     val renewalDate: String
 )
 
-class SubscriptionAdapter(private var subscriptions: MutableList<Subscription>) :
-    RecyclerView.Adapter<SubscriptionAdapter.SubscriptionViewHolder>() {
+class SubscriptionAdapter(
+    private var subscriptions: MutableList<Subscription>,
+    private val onSubscriptionLongClick: (Subscription) -> Unit
+) : RecyclerView.Adapter<SubscriptionAdapter.SubscriptionViewHolder>() {
 
     fun setSubscriptions(newSubscriptions: List<Subscription>) {
         subscriptions.clear()
@@ -43,6 +46,11 @@ class SubscriptionAdapter(private var subscriptions: MutableList<Subscription>) 
             nameTextView.text = subscription.name
             priceTextView.text = "${subscription.price} PLN"
             renewalDateTextView.text = subscription.renewalDate
+
+            itemView.setOnLongClickListener {
+                onSubscriptionLongClick(subscription)
+                true
+            }
         }
     }
 }

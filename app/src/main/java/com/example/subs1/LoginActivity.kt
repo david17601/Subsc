@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
         dbHelper = DatabaseHelper(this)
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
 
-        // Sprawdź, czy użytkownik jest zalogowany
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             navigateToMainScreen()
             return

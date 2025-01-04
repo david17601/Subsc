@@ -1,44 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nazwa subskrypcji" />
-
-        <EditText
-            android:id="@+id/priceInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cena (PLN)"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/startDateInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Data rozpoczęcia (yyyy-mm-dd)" />
-
-        <EditText
-            android:id="@+id/frequencyInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Częstotliwość (np. co miesiąc)" />
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp">
 
         <Button
-            android:id="@+id/addSubscriptionButton"
+            android:id="@+id/addCustomSubscriptionButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dodaj subskrypcję" />
+            android:text="Dodaj własną subskrypcję"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/teal_200"
+            android:layout_marginBottom="16dp" />
+
+        <ScrollView
+            android:id="@+id/customSubscriptionForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/nameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nazwa subskrypcji" />
+
+                <EditText
+                    android:id="@+id/priceInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Cena (PLN)"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/startDateInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Data rozpoczęcia (yyyy-mm-dd)" />
+
+                <Button
+                    android:id="@+id/selectImageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wybierz ikonę"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/teal_200"
+                    android:layout_marginBottom="16dp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp" />
+
+                <Button
+                    android:id="@+id/addSubscriptionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dodaj subskrypcję"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/teal_200" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-</ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Popularne serwisy"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/popularSubscriptionsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

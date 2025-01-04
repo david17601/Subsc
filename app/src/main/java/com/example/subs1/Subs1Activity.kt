@@ -20,10 +20,8 @@ class Subs1Activity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        // Usunięcie tytułu z Toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // Kolor wskaźnika wysuwania menu na czarny
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -32,9 +30,7 @@ class Subs1Activity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Obsługa nawigacji w NavigationView
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            // Wyłącz zaznaczenie wszystkich pozycji menu
             uncheckAllMenuItems(navigationView)
 
             when (menuItem.itemId) {
@@ -52,10 +48,8 @@ class Subs1Activity : AppCompatActivity() {
                         else -> HomeFragment()
                     }
 
-                    // Ładowanie wybranego fragmentu
                     loadFragment(fragment)
 
-                    // Zaznaczenie wybranej pozycji menu
                     menuItem.isChecked = true
                     drawerLayout.closeDrawers()
                 }
@@ -63,7 +57,7 @@ class Subs1Activity : AppCompatActivity() {
             true
         }
 
-        // Domyślne ładowanie fragmentu "Lista Subskrypcji"
+
         if (savedInstanceState == null) {
             navigationView.post {
                 navigationView.menu.performIdentifierAction(R.id.nav_home, 0)
@@ -72,7 +66,7 @@ class Subs1Activity : AppCompatActivity() {
         }
     }
 
-    // Funkcja odznaczania wszystkich pozycji menu
+
     private fun uncheckAllMenuItems(navigationView: NavigationView) {
         val menu = navigationView.menu
         for (i in 0 until menu.size()) {
@@ -80,14 +74,14 @@ class Subs1Activity : AppCompatActivity() {
         }
     }
 
-    // Funkcja ładowania fragmentu
+
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
 
-    // Funkcja wylogowania użytkownika
+
     private fun logout() {
         val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
