@@ -47,11 +47,20 @@
                     android:hint="Cena (PLN)"
                     android:inputType="numberDecimal" />
 
+                <Spinner
+                    android:id="@+id/frequencySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:entries="@array/frequency_options" />
+
                 <EditText
                     android:id="@+id/startDateInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data rozpoczęcia (yyyy-mm-dd)" />
+                    android:hint="Data rozpoczęcia (dd-mm-rrrr)"
+                    android:focusable="false"
+                    android:clickable="true" />
 
                 <Button
                     android:id="@+id/selectImageButton"

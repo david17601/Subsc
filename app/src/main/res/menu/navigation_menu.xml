@@ -1,26 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/menu"
         android:title="Lista Subskrypcji" />
     <item
         android:id="@+id/nav_add_subscription"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/add"
         android:title="Dodaj Subskrypcję" />
     <item
         android:id="@+id/nav_costs"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/dolar"
         android:title="Koszty" />
     <item
         android:id="@+id/nav_upcoming_payments"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/calender"
         android:title="Nadchodzące Płatności" />
-    <item
-        android:id="@+id/nav_account_options"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="Opcje Konta" />
+
     <item
         android:id="@+id/nav_logout"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/logout"
         android:title="Wyloguj" />
 </menu>

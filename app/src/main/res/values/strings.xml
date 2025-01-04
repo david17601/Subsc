@@ -2,4 +2,9 @@
     <string name="app_name">Subscriber</string>
     <string name="navigation_drawer_open">Otwórz menu nawigacji</string>
     <string name="navigation_drawer_close">Zamknij menu nawigacji</string>
+
+    <string-array name="frequency_options">
+    <item>Miesięczna</item>
+    <item>Roczna</item>
+</string-array>
 </resources>

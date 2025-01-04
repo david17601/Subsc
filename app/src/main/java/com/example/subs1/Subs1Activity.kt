@@ -1,94 +1,65 @@
 package com.example.subs1
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.navigation.NavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Subs1Activity : AppCompatActivity() {
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_subs1)
 
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
 
-        setSupportActionBar(toolbar)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar,
-            R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        toggle.drawerArrowDrawable.color = getColor(android.R.color.black)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            uncheckAllMenuItems(navigationView)
-
-            when (menuItem.itemId) {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    replaceFragment(HomeFragment())
+                    true
+                }
+                R.id.nav_add_subscription -> {
+                    replaceFragment(AddSubscriptionFragment())
+                    true
+                }
+                R.id.nav_costs -> {
+                    replaceFragment(CostsFragment())
+                    true
+                }
+                R.id.nav_upcoming_payments -> {
+                    replaceFragment(UpcomingPaymentsFragment())
+                    true
+                }
                 R.id.nav_logout -> {
                     logout()
-                    return@setNavigationItemSelectedListener true
+                    true
                 }
-                else -> {
-                    val fragment: Fragment = when (menuItem.itemId) {
-                        R.id.nav_home -> HomeFragment()
-                        R.id.nav_add_subscription -> AddSubscriptionFragment()
-                        R.id.nav_costs -> CostsFragment()
-                        R.id.nav_upcoming_payments -> UpcomingPaymentsFragment()
-                        R.id.nav_account_options -> AccountOptionsFragment()
-                        else -> HomeFragment()
-                    }
-
-                    loadFragment(fragment)
-
-                    menuItem.isChecked = true
-                    drawerLayout.closeDrawers()
-                }
-            }
-            true
-        }
-
-
-        if (savedInstanceState == null) {
-            navigationView.post {
-                navigationView.menu.performIdentifierAction(R.id.nav_home, 0)
-                navigationView.setCheckedItem(R.id.nav_home)
+                else -> false
             }
         }
+
+        bottomNavigationView.selectedItemId = R.id.nav_home
     }
 
-
-    private fun uncheckAllMenuItems(navigationView: NavigationView) {
-        val menu = navigationView.menu
-        for (i in 0 until menu.size()) {
-            menu.getItem(i).isChecked = false
-        }
-    }
-
-
-    private fun loadFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragmentContainerView, fragment)
             .commit()
     }
 
-
     private fun logout() {
-        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
+        // Usunięcie stanu logowania
+        sharedPreferences.edit().putBoolean("is_logged_in", false).apply()
 
         val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

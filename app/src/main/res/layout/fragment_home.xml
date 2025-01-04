@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,21 +5,31 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Wyśrodkowany tytuł -->
+    <!-- Nagłówek -->
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/headerTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Moje aktywne subskrypcje"
+        android:text="Aktywne subskrypcje"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="8dp" />
 
-    <!-- RecyclerView do wyświetlania subskrypcji -->
+    <!-- Lista subskrypcji -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSubscriptions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Pusty stan -->
+    <TextView
+        android:id="@+id/emptyStateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Brak subskrypcji. Dodaj nową subskrypcję, aby zacząć."
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:visibility="gone" />
 </LinearLayout>

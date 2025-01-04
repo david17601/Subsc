@@ -1,6 +1,7 @@
 package com.example.subs1
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -14,12 +15,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 class AddSubscriptionFragment : Fragment() {
 
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
     private var selectedImage: Bitmap? = null
+    private var selectedFrequency: Frequency = Frequency.MONTHLY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,7 @@ class AddSubscriptionFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_subscription, container, false)
         databaseHelper = DatabaseHelper(requireContext())
+
         val customForm = view.findViewById<ScrollView>(R.id.customSubscriptionForm)
         val addCustomButton = view.findViewById<Button>(R.id.addCustomSubscriptionButton)
         val addButton = view.findViewById<Button>(R.id.addSubscriptionButton)
@@ -49,6 +53,21 @@ class AddSubscriptionFragment : Fragment() {
         val nameInput = view.findViewById<EditText>(R.id.nameInput)
         val priceInput = view.findViewById<EditText>(R.id.priceInput)
         val startDateInput = view.findViewById<EditText>(R.id.startDateInput)
+        val frequencySpinner = view.findViewById<Spinner>(R.id.frequencySpinner)
+
+        val frequencies = resources.getStringArray(R.array.frequency_options)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, frequencies)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        frequencySpinner.adapter = adapter
+
+        frequencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedFrequency = if (position == 0) Frequency.MONTHLY else Frequency.YEARLY
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         val popularSubscriptionsRecyclerView = view.findViewById<RecyclerView>(R.id.popularSubscriptionsRecyclerView)
         val popularSubscriptions = listOf(
             PopularSubscription("Netflix", R.drawable.icon_netflix),
@@ -64,50 +83,54 @@ class AddSubscriptionFragment : Fragment() {
         )
         popularSubscriptionsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         popularSubscriptionsRecyclerView.adapter = PopularSubscriptionAdapter(popularSubscriptions) { subscription ->
-            openEditSubscriptionDialog(subscription)
+            nameInput.setText(subscription.name)
+            customForm.visibility = View.VISIBLE
         }
+
         addCustomButton.setOnClickListener {
             customForm.visibility = if (customForm.visibility == View.GONE) View.VISIBLE else View.GONE
         }
+
         selectImageButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             selectImageLauncher.launch(intent)
         }
+
+        startDateInput.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val datePicker = DatePickerDialog(
+                requireContext(),
+                { _, year, month, dayOfMonth ->
+                    val formattedDate = String.format("%02d-%02d-%04d", dayOfMonth, month + 1, year)
+                    startDateInput.setText(formattedDate)
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePicker.show()
+        }
+
         addButton.setOnClickListener {
             val name = nameInput.text.toString()
             val price = priceInput.text.toString().toDoubleOrNull() ?: 0.0
             val startDate = startDateInput.text.toString()
+
             if (name.isNotEmpty() && startDate.isNotEmpty()) {
-                databaseHelper.addSubscription(name, price, startDate)
-                Toast.makeText(context, "Subskrypcja dodana!", Toast.LENGTH_SHORT).show()
-                nameInput.text.clear()
-                priceInput.text.clear()
-                startDateInput.text.clear()
+                val added = databaseHelper.addSubscription(name, price, startDate, selectedFrequency)
+                if (added) {
+                    Toast.makeText(context, "Subskrypcja dodana!", Toast.LENGTH_SHORT).show()
+                    nameInput.text.clear()
+                    priceInput.text.clear()
+                    startDateInput.text.clear()
+                } else {
+                    Toast.makeText(context, "Błąd podczas dodawania subskrypcji!", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(context, "Proszę wypełnić wszystkie wymagane pola!", Toast.LENGTH_SHORT).show()
             }
         }
-        return view
-    }
 
-    private fun openEditSubscriptionDialog(subscription: PopularSubscription) {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_edit_subscription, null)
-        val dialog = android.app.AlertDialog.Builder(requireContext())
-            .setTitle("Edytuj subskrypcję")
-            .setView(dialogView)
-            .setPositiveButton("Zapisz") { _, _ ->
-                val name = dialogView.findViewById<EditText>(R.id.dialogNameInput).text.toString()
-                val price = dialogView.findViewById<EditText>(R.id.dialogPriceInput).text.toString().toDoubleOrNull() ?: 0.0
-                val renewalDate = dialogView.findViewById<EditText>(R.id.dialogRenewalDateInput).text.toString()
-                if (name.isNotEmpty() && renewalDate.isNotEmpty()) {
-                    databaseHelper.addSubscription(name, price, renewalDate)
-                    Toast.makeText(requireContext(), "$name dodano do subskrypcji!", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Proszę wypełnić wszystkie pola!", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Anuluj", null)
-            .create()
-        dialog.show()
+        return view
     }
 }

@@ -10,8 +10,14 @@ data class Subscription(
     val id: Int,
     val name: String,
     val price: Double,
-    val renewalDate: String
+    val renewalDate: String,
+    val frequency: Frequency
 )
+
+enum class Frequency {
+    MONTHLY,
+    YEARLY
+}
 
 class SubscriptionAdapter(
     private var subscriptions: MutableList<Subscription>,
