@@ -2,19 +2,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:gravity="center"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="16dp" />
+    <FrameLayout
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/popularSubscriptionIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:clipToOutline="true"
+            android:adjustViewBounds="true"
+            android:background="@drawable/circular_background" />
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/popularSubscriptionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Nazwa"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textAlignment="center" />
 </LinearLayout>

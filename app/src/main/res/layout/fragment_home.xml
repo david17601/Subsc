@@ -1,35 +1,62 @@
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Nagłówek -->
-    <TextView
-        android:id="@+id/headerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aktywne subskrypcje"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Lista subskrypcji -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSubscriptions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Pusty stan -->
-    <TextView
-        android:id="@+id/emptyStateTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Brak subskrypcji. Dodaj nową subskrypcję, aby zacząć."
-        android:textSize="16sp"
-        android:gravity="center"
-        android:padding="16dp"
-        android:visibility="gone" />
-</LinearLayout>
+        android:orientation="vertical">
+
+        <!-- Sekcja dla miesięcznych subskrypcji -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aktywne subskrypcje miesięczne"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMonthlySubscriptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/emptyStateMonthlyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brak miesięcznych subskrypcji"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone" />
+
+        <!-- Sekcja dla rocznych subskrypcji -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aktywne subskrypcje roczne"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewYearlySubscriptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/emptyStateYearlyTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brak rocznych subskrypcji"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

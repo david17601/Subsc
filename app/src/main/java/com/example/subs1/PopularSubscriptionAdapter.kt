@@ -31,13 +31,17 @@ class PopularSubscriptionAdapter(
     override fun getItemCount(): Int = subscriptions.size
 
     inner class PopularSubscriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val logoImageView: ImageView = itemView.findViewById(R.id.logoImageView)
-        private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
+        private val logoImageView: ImageView = itemView.findViewById(R.id.popularSubscriptionIcon)
+        private val nameTextView: TextView = itemView.findViewById(R.id.popularSubscriptionName)
 
         fun bind(subscription: PopularSubscription) {
+            // Ustawienie ikony
             logoImageView.setImageResource(subscription.logoResId)
+
+            // Ustawienie nazwy
             nameTextView.text = subscription.name
 
+            // Obsługa kliknięcia
             itemView.setOnClickListener {
                 onSubscriptionClick(subscription)
             }
