@@ -1,5 +1,6 @@
 package com.example.subs1
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,39 +20,63 @@ class Subs1Activity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
+        // Usunięcie tytułu z Toolbar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // Kolor wskaźnika wysuwania menu na czarny
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
+        toggle.drawerArrowDrawable.color = getColor(android.R.color.black)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Domyślne ładowanie HomeFragment
-        if (savedInstanceState == null) {
-            loadFragment(HomeFragment())
-            navigationView.setCheckedItem(R.id.nav_home)
-        }
-
         // Obsługa nawigacji w NavigationView
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            val menu = navigationView.menu
-            for (i in 0 until menu.size()) {
-                menu.getItem(i).isChecked = false
-            }
-            menuItem.isChecked = true
+            // Wyłącz zaznaczenie wszystkich pozycji menu
+            uncheckAllMenuItems(navigationView)
 
-            val fragment: Fragment = when (menuItem.itemId) {
-                R.id.nav_home -> HomeFragment()
-                R.id.nav_add_subscription -> AddSubscriptionFragment()
-                R.id.nav_costs -> CostsFragment()
-                R.id.nav_upcoming_payments -> UpcomingPaymentsFragment()
-                R.id.nav_account_options -> AccountOptionsFragment()
-                else -> HomeFragment()
-            }
+            when (menuItem.itemId) {
+                R.id.nav_logout -> {
+                    logout()
+                    return@setNavigationItemSelectedListener true
+                }
+                else -> {
+                    val fragment: Fragment = when (menuItem.itemId) {
+                        R.id.nav_home -> HomeFragment()
+                        R.id.nav_add_subscription -> AddSubscriptionFragment()
+                        R.id.nav_costs -> CostsFragment()
+                        R.id.nav_upcoming_payments -> UpcomingPaymentsFragment()
+                        R.id.nav_account_options -> AccountOptionsFragment()
+                        else -> HomeFragment()
+                    }
 
-            loadFragment(fragment)
-            drawerLayout.closeDrawers()
+                    // Ładowanie wybranego fragmentu
+                    loadFragment(fragment)
+
+                    // Zaznaczenie wybranej pozycji menu
+                    menuItem.isChecked = true
+                    drawerLayout.closeDrawers()
+                }
+            }
             true
+        }
+
+        // Domyślne ładowanie fragmentu "Lista Subskrypcji"
+        if (savedInstanceState == null) {
+            navigationView.post {
+                navigationView.menu.performIdentifierAction(R.id.nav_home, 0)
+                navigationView.setCheckedItem(R.id.nav_home)
+            }
+        }
+    }
+
+    // Funkcja odznaczania wszystkich pozycji menu
+    private fun uncheckAllMenuItems(navigationView: NavigationView) {
+        val menu = navigationView.menu
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).isChecked = false
         }
     }
 
@@ -60,5 +85,17 @@ class Subs1Activity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
+    }
+
+    // Funkcja wylogowania użytkownika
+    private fun logout() {
+        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

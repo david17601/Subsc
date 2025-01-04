@@ -2,7 +2,7 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="Home" />
+        android:title="Lista Subskrypcji" />
     <item
         android:id="@+id/nav_add_subscription"
         android:icon="@android:drawable/ic_menu_add"
@@ -19,4 +19,8 @@
         android:id="@+id/nav_account_options"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="Opcje Konta" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Wyloguj" />
 </menu>

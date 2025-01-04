@@ -1,6 +1,7 @@
 package com.example.subs1
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -11,12 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var dbHelper: DatabaseHelper
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         dbHelper = DatabaseHelper(this)
+        sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+
+        // Sprawdź, czy użytkownik jest zalogowany
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            navigateToMainScreen()
+            return
+        }
 
         val loginInput = findViewById<EditText>(R.id.loginInput)
         val passwordInput = findViewById<EditText>(R.id.passwordInput)
@@ -29,17 +38,15 @@ class LoginActivity : AppCompatActivity() {
             val login = loginInput.text.toString()
             val password = passwordInput.text.toString()
 
-            // Sprawdź, czy oba pola są wypełnione
             if (login.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Proszę wypełnić wszystkie pola.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Sprawdź, czy dane są poprawne
             if (dbHelper.checkUser(login, password)) {
                 Toast.makeText(this, "Logowanie pomyślne!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, Subs1Activity::class.java))
-                finish()
+                saveLoginState()
+                navigateToMainScreen()
             } else {
                 Toast.makeText(this, "Niepoprawny login lub hasło.", Toast.LENGTH_SHORT).show()
             }
@@ -56,5 +63,16 @@ class LoginActivity : AppCompatActivity() {
         currentFocus?.let {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
+    }
+
+    private fun saveLoginState() {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", true)
+        editor.apply()
+    }
+
+    private fun navigateToMainScreen() {
+        startActivity(Intent(this, Subs1Activity::class.java))
+        finish()
     }
 }
