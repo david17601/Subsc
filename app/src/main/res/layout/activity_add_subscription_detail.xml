@@ -1,0 +1,89 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Główna zawartość ekranu -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <ImageView
+                android:id="@+id/selectedImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/empty_placeholder_icon"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circular_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nazwa"
+                android:inputType="text"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/priceInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cena"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="16dp" />
+
+            <Spinner
+                android:id="@+id/frequencySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/frequency_options" />
+
+            <EditText
+                android:id="@+id/startDateInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Data rozpoczęcia"
+                android:focusable="false"
+                android:clickable="true"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/addSubscriptionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dodaj subskrypcję"
+                android:backgroundTint="@color/teal_200"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Tekstowy przycisk na dole ekranu -->
+    <TextView
+        android:id="@+id/backToPopularButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="36dp"
+        android:text="Zamiast tego dodaj z gotowych subskrypcji"
+        android:textColor="@color/teal_200"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
