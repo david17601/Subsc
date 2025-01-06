@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Główna zawartość ekranu -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,9 +33,9 @@
                 android:id="@+id/nameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:hint="Nazwa"
-                android:inputType="text"
-                android:layout_marginBottom="16dp" />
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/priceInput"
@@ -73,7 +72,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Tekstowy przycisk na dole ekranu -->
     <TextView
         android:id="@+id/backToPopularButton"
         android:layout_width="wrap_content"

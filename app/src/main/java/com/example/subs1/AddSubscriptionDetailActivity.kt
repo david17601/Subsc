@@ -47,7 +47,7 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
         val subscriptionName = intent.getStringExtra("SUBSCRIPTION_NAME")
         val subscriptionIcon = intent.getIntExtra("SUBSCRIPTION_ICON", -1)
 
-        // Jeśli nazwa to "Dodaj własną", pole będzie puste
+
         if (!subscriptionName.isNullOrEmpty() && subscriptionName != "Dodaj własną") {
             nameInput.setText(subscriptionName)
         } else {

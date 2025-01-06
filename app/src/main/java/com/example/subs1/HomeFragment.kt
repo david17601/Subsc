@@ -9,12 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
 
     private lateinit var monthlyAdapter: SubscriptionAdapter
     private lateinit var yearlyAdapter: SubscriptionAdapter
     private lateinit var databaseHelper: DatabaseHelper
+    private val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,11 +63,37 @@ class HomeFragment : Fragment() {
     private fun refreshSubscriptions(monthlyEmptyState: TextView, yearlyEmptyState: TextView) {
         val subscriptions = databaseHelper.getAllSubscriptions()
 
-        val monthlySubscriptions = subscriptions.filter { it.frequency == Frequency.MONTHLY }
-        val yearlySubscriptions = subscriptions.filter { it.frequency == Frequency.YEARLY }
+        val monthlySubscriptions = subscriptions.map { it.copy(renewalDate = updateNextRenewalDate(it)) }
+            .filter { it.frequency == Frequency.MONTHLY }
+
+        val yearlySubscriptions = subscriptions.map { it.copy(renewalDate = updateNextRenewalDate(it)) }
+            .filter { it.frequency == Frequency.YEARLY }
 
         updateAdapter(monthlyAdapter, monthlySubscriptions, monthlyEmptyState)
         updateAdapter(yearlyAdapter, yearlySubscriptions, yearlyEmptyState)
+    }
+
+    private fun updateNextRenewalDate(subscription: Subscription): String {
+        val currentDate = Calendar.getInstance()
+        val renewalDate = Calendar.getInstance()
+
+        renewalDate.time = dateFormatter.parse(subscription.renewalDate) ?: return "Błąd daty"
+
+        if (currentDate.get(Calendar.YEAR) == renewalDate.get(Calendar.YEAR) &&
+            currentDate.get(Calendar.MONTH) == renewalDate.get(Calendar.MONTH) &&
+            currentDate.get(Calendar.DAY_OF_MONTH) == renewalDate.get(Calendar.DAY_OF_MONTH)
+        ) {
+            return dateFormatter.format(renewalDate.time)
+        }
+
+        while (renewalDate.before(currentDate) || renewalDate.time == currentDate.time) {
+            when (subscription.frequency) {
+                Frequency.MONTHLY -> renewalDate.add(Calendar.MONTH, 1)
+                Frequency.YEARLY -> renewalDate.add(Calendar.YEAR, 1)
+            }
+        }
+
+        return dateFormatter.format(renewalDate.time)
     }
 
     private fun updateAdapter(
