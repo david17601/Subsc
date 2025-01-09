@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,12 +37,12 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
         startDateInput.setOnClickListener { showDatePicker(startDateInput) }
         endDateInput.setOnClickListener { showDatePicker(endDateInput) }
 
-        buttonPrevWeek.setOnClickListener { setDatesAndCalculate(-7, -1, Calendar.DAY_OF_YEAR) }
-        buttonThisWeek.setOnClickListener { setDatesAndCalculate(0, 6, Calendar.DAY_OF_WEEK) }
-        buttonNextWeek.setOnClickListener { setDatesAndCalculate(7, 13, Calendar.DAY_OF_YEAR) }
-        buttonPrevMonth.setOnClickListener { setDatesAndCalculate(-1, -1, Calendar.MONTH) }
-        buttonCurrentMonth.setOnClickListener { setDatesAndCalculate(0, 0, Calendar.MONTH) }
-        buttonNextMonth.setOnClickListener { setDatesAndCalculate(1, 1, Calendar.MONTH) }
+        buttonPrevWeek.setOnClickListener { setDatesAndCalculate(-1, Calendar.WEEK_OF_YEAR) }
+        buttonThisWeek.setOnClickListener { setDatesAndCalculate(0, Calendar.WEEK_OF_YEAR) }
+        buttonNextWeek.setOnClickListener { setDatesAndCalculate(1, Calendar.WEEK_OF_YEAR) }
+        buttonPrevMonth.setOnClickListener { setDatesAndCalculate(-1, Calendar.MONTH) }
+        buttonCurrentMonth.setOnClickListener { setDatesAndCalculate(0, Calendar.MONTH) }
+        buttonNextMonth.setOnClickListener { setDatesAndCalculate(1, Calendar.MONTH) }
     }
 
     private fun showDatePicker(editText: EditText) {
@@ -59,36 +60,27 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
         ).show()
     }
 
-    private fun setDatesAndCalculate(offsetStart: Int, offsetEnd: Int, field: Int) {
+    private fun setDatesAndCalculate(offset: Int, field: Int) {
         val calendar = Calendar.getInstance()
+        calendar.firstDayOfWeek = Calendar.MONDAY
 
         when (field) {
+            Calendar.WEEK_OF_YEAR -> {
+                calendar.add(Calendar.WEEK_OF_YEAR, offset)
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                val startDate = calendar.time
+
+                calendar.add(Calendar.DAY_OF_WEEK, 6)
+                val endDate = calendar.time
+
+                updateDateFields(startDate, endDate)
+            }
             Calendar.MONTH -> {
-                calendar.add(Calendar.MONTH, offsetStart)
+                calendar.add(Calendar.MONTH, offset)
                 calendar.set(Calendar.DAY_OF_MONTH, 1)
                 val startDate = calendar.time
 
-                calendar.add(Calendar.MONTH, offsetEnd)
                 calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-                val endDate = calendar.time
-
-                updateDateFields(startDate, endDate)
-            }
-            Calendar.DAY_OF_WEEK -> {
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                calendar.add(Calendar.DAY_OF_YEAR, offsetStart)
-                val startDate = calendar.time
-
-                calendar.add(Calendar.DAY_OF_YEAR, offsetEnd)
-                val endDate = calendar.time
-
-                updateDateFields(startDate, endDate)
-            }
-            Calendar.DAY_OF_YEAR -> {
-                calendar.add(Calendar.DAY_OF_YEAR, offsetStart)
-                val startDate = calendar.time
-
-                calendar.add(Calendar.DAY_OF_YEAR, offsetEnd - offsetStart)
                 val endDate = calendar.time
 
                 updateDateFields(startDate, endDate)
@@ -103,8 +95,27 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
     }
 
     private fun recalculateCosts() {
-        val startDate = dateFormatter.parse(startDateInput.text.toString())
-        val endDate = dateFormatter.parse(endDateInput.text.toString())
+        val startDateText = startDateInput.text.toString()
+        val endDateText = endDateInput.text.toString()
+
+        if (startDateText.isEmpty() || endDateText.isEmpty()) {
+            Toast.makeText(requireContext(), "Proszę wypełnić daty przed obliczeniem kosztów.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val startDate = try {
+            dateFormatter.parse(startDateText)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Nieprawidłowy format daty początkowej.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val endDate = try {
+            dateFormatter.parse(endDateText)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Nieprawidłowy format daty końcowej.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (startDate != null && endDate != null) {
             calculateCosts(startDate, endDate)
@@ -117,7 +128,7 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
             calculateSubscriptionCosts(subscription, startDate, endDate)
         }
 
-        costSummary.text = "Łączny koszt: %.2f PLN".format(totalCost)
+        costSummary.text = "%.2f zł".format(totalCost)
     }
 
     private fun calculateSubscriptionCosts(subscription: Subscription, startDate: Date, endDate: Date): Double {

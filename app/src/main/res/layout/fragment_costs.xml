@@ -6,20 +6,81 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/costSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Łączny koszt: 0.00 PLN"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_marginBottom="16dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_dollar"
+            android:contentDescription="@string/cost_icon" />
+
+        <TextView
+            android:id="@+id/costSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00 zł"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Pola dat "Od" i "Do" -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Od: "
+            android:layout_gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/startDateInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="dd-mm-yyyy"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Do: "
+            android:layout_gravity="center_vertical" />
+
+        <EditText
+            android:id="@+id/endDateInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="dd-mm-yyyy"
+            android:inputType="date"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Przyciski zakresu -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
         android:weightSum="2">
 
         <LinearLayout
@@ -95,48 +156,5 @@
                 android:textSize="12sp"
                 android:backgroundTint="@color/teal_200" />
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Od: "
-            android:layout_gravity="center_vertical" />
-
-        <EditText
-            android:id="@+id/startDateInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="dd-mm-yyyy"
-            android:inputType="date"
-            android:focusable="false"
-            android:clickable="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Do: "
-            android:layout_gravity="center_vertical" />
-
-        <EditText
-            android:id="@+id/endDateInput"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="dd-mm-yyyy"
-            android:inputType="date"
-            android:focusable="false"
-            android:clickable="true"
-            android:layout_marginStart="8dp" />
     </LinearLayout>
 </LinearLayout>

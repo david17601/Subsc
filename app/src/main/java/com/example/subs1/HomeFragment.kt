@@ -63,30 +63,37 @@ class HomeFragment : Fragment() {
     private fun refreshSubscriptions(monthlyEmptyState: TextView, yearlyEmptyState: TextView) {
         val subscriptions = databaseHelper.getAllSubscriptions()
 
-        val monthlySubscriptions = subscriptions.map { it.copy(renewalDate = updateNextRenewalDate(it)) }
-            .filter { it.frequency == Frequency.MONTHLY }
+        val monthlySubscriptions = subscriptions.filter { it.frequency == Frequency.MONTHLY }
+            .map { it.copy(renewalDate = calculateNextPaymentDate(it)) }
 
-        val yearlySubscriptions = subscriptions.map { it.copy(renewalDate = updateNextRenewalDate(it)) }
-            .filter { it.frequency == Frequency.YEARLY }
+        val yearlySubscriptions = subscriptions.filter { it.frequency == Frequency.YEARLY }
+            .map { it.copy(renewalDate = calculateNextPaymentDate(it)) }
 
         updateAdapter(monthlyAdapter, monthlySubscriptions, monthlyEmptyState)
         updateAdapter(yearlyAdapter, yearlySubscriptions, yearlyEmptyState)
     }
 
-    private fun updateNextRenewalDate(subscription: Subscription): String {
+    private fun calculateNextPaymentDate(subscription: Subscription): String {
         val currentDate = Calendar.getInstance()
+        currentDate.set(Calendar.HOUR_OF_DAY, 0)
+        currentDate.set(Calendar.MINUTE, 0)
+        currentDate.set(Calendar.SECOND, 0)
+        currentDate.set(Calendar.MILLISECOND, 0)
+
         val renewalDate = Calendar.getInstance()
-
         renewalDate.time = dateFormatter.parse(subscription.renewalDate) ?: return "Błąd daty"
+        renewalDate.set(Calendar.HOUR_OF_DAY, 0)
+        renewalDate.set(Calendar.MINUTE, 0)
+        renewalDate.set(Calendar.SECOND, 0)
+        renewalDate.set(Calendar.MILLISECOND, 0)
 
-        if (currentDate.get(Calendar.YEAR) == renewalDate.get(Calendar.YEAR) &&
-            currentDate.get(Calendar.MONTH) == renewalDate.get(Calendar.MONTH) &&
-            currentDate.get(Calendar.DAY_OF_MONTH) == renewalDate.get(Calendar.DAY_OF_MONTH)
-        ) {
+
+        if (renewalDate.time == currentDate.time) {
             return dateFormatter.format(renewalDate.time)
         }
 
-        while (renewalDate.before(currentDate) || renewalDate.time == currentDate.time) {
+
+        while (!renewalDate.after(currentDate)) {
             when (subscription.frequency) {
                 Frequency.MONTHLY -> renewalDate.add(Calendar.MONTH, 1)
                 Frequency.YEARLY -> renewalDate.add(Calendar.YEAR, 1)

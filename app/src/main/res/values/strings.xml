@@ -8,4 +8,5 @@
         <item>Roczna</item>
     </string-array>
 
+    <string name="cost_icon">Dolar</string>
 </resources>
