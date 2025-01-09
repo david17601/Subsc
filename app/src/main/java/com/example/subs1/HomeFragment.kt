@@ -74,24 +74,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun calculateNextPaymentDate(subscription: Subscription): String {
-        val currentDate = Calendar.getInstance()
-        currentDate.set(Calendar.HOUR_OF_DAY, 0)
-        currentDate.set(Calendar.MINUTE, 0)
-        currentDate.set(Calendar.SECOND, 0)
-        currentDate.set(Calendar.MILLISECOND, 0)
+        val currentDate = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
 
-        val renewalDate = Calendar.getInstance()
-        renewalDate.time = dateFormatter.parse(subscription.renewalDate) ?: return "Błąd daty"
-        renewalDate.set(Calendar.HOUR_OF_DAY, 0)
-        renewalDate.set(Calendar.MINUTE, 0)
-        renewalDate.set(Calendar.SECOND, 0)
-        renewalDate.set(Calendar.MILLISECOND, 0)
+        val renewalDate = Calendar.getInstance().apply {
+            time = dateFormatter.parse(subscription.renewalDate) ?: return "Błąd daty"
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
 
-
-        if (renewalDate.time == currentDate.time) {
+        if (renewalDate.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) &&
+            renewalDate.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR)) {
             return dateFormatter.format(renewalDate.time)
         }
 
+        if (renewalDate.after(currentDate)) {
+            return dateFormatter.format(renewalDate.time)
+        }
 
         while (!renewalDate.after(currentDate)) {
             when (subscription.frequency) {
@@ -113,6 +118,7 @@ class HomeFragment : Fragment() {
         } else {
             emptyStateTextView.visibility = View.GONE
         }
+
         adapter.setSubscriptions(subscriptions)
     }
 

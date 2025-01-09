@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 
 data class Subscription(
@@ -55,12 +56,14 @@ class SubscriptionAdapter(
         private val renewalDateTextView: TextView = itemView.findViewById(R.id.subscriptionRenewalDate)
         private val iconImageView: ImageView = itemView.findViewById(R.id.subscriptionIcon)
         private val deleteIcon: ImageView = itemView.findViewById(R.id.subscriptionDeleteIcon)
+        private val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
         fun bind(subscription: Subscription) {
             nameTextView.text = subscription.name
             nameTextView.textSize = 18f
             priceTextView.text = formatPrice(subscription.price)
-            renewalDateTextView.text = "Następna płatność: ${calculateNextPaymentDate(subscription.renewalDate, subscription.frequency)}"
+            val nextPaymentDate = calculateNextPaymentDate(subscription.renewalDate, subscription.frequency)
+            renewalDateTextView.text = "Następna płatność: $nextPaymentDate"
 
             subscription.icon?.let {
                 val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
@@ -75,16 +78,31 @@ class SubscriptionAdapter(
         }
 
         private fun calculateNextPaymentDate(startDate: String, frequency: Frequency): String {
-            val dateFormat = java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             return try {
-                val date = dateFormat.parse(startDate) ?: return "Nieznana"
                 val calendar = Calendar.getInstance()
-                calendar.time = date
-                when (frequency) {
-                    Frequency.MONTHLY -> calendar.add(Calendar.MONTH, 1)
-                    Frequency.YEARLY -> calendar.add(Calendar.YEAR, 1)
+                val parsedDate = dateFormatter.parse(startDate) ?: return "Nieznana"
+                calendar.time = parsedDate
+
+                val currentDate = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
                 }
-                dateFormat.format(calendar.time)
+
+                if (calendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR)) {
+                    return dateFormatter.format(calendar.time)
+                }
+
+                while (!calendar.after(currentDate)) {
+                    when (frequency) {
+                        Frequency.MONTHLY -> calendar.add(Calendar.MONTH, 1)
+                        Frequency.YEARLY -> calendar.add(Calendar.YEAR, 1)
+                    }
+                }
+
+                dateFormatter.format(calendar.time)
             } catch (e: Exception) {
                 "Nieznana"
             }

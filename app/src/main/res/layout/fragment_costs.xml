@@ -31,7 +31,6 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
-    <!-- Pola dat "Od" i "Do" -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +41,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Od: "
             android:layout_gravity="center_vertical" />
 
         <EditText
@@ -50,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="dd-mm-yyyy"
+            android:hint="Od:"
             android:inputType="date"
             android:focusable="false"
             android:clickable="true"
@@ -60,7 +58,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Do: "
             android:layout_gravity="center_vertical" />
 
         <EditText
@@ -68,14 +65,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="dd-mm-yyyy"
+            android:hint="Do:"
             android:inputType="date"
             android:focusable="false"
             android:clickable="true"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Przyciski zakresu -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
