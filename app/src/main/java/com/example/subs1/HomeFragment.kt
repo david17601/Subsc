@@ -18,6 +18,7 @@ class HomeFragment : Fragment() {
     private lateinit var yearlyAdapter: SubscriptionAdapter
     private lateinit var databaseHelper: DatabaseHelper
     private val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    private var userId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +27,8 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         databaseHelper = DatabaseHelper(requireContext())
+
+        userId = arguments?.getInt("user_id") ?: -1
 
         monthlyAdapter = SubscriptionAdapter(mutableListOf()) { subscription ->
             handleSubscriptionDelete(subscription, view)
@@ -61,7 +64,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun refreshSubscriptions(monthlyEmptyState: TextView, yearlyEmptyState: TextView) {
-        val subscriptions = databaseHelper.getAllSubscriptions()
+        val subscriptions = databaseHelper.getSubscriptionsForUser(userId)
 
         val monthlySubscriptions = subscriptions.filter { it.frequency == Frequency.MONTHLY }
             .map { it.copy(renewalDate = calculateNextPaymentDate(it)) }

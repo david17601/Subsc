@@ -42,8 +42,10 @@ class LoginActivity : AppCompatActivity() {
                 )
 
                 if (cursor.moveToFirst()) {
+                    val userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                     cursor.close()
-                    setLoggedIn()
+
+                    setLoggedIn(userId)
                     Toast.makeText(this, "Logowanie zakończone sukcesem", Toast.LENGTH_SHORT).show()
 
                     navigateToHome()
@@ -66,8 +68,15 @@ class LoginActivity : AppCompatActivity() {
         return sharedPreferences.getBoolean("is_logged_in", false)
     }
 
-    private fun setLoggedIn() {
-        sharedPreferences.edit().putBoolean("is_logged_in", true).apply()
+    private fun getLoggedInUserId(): Int {
+        return sharedPreferences.getInt("logged_in_user_id", -1)
+    }
+
+    private fun setLoggedIn(userId: Int) {
+        sharedPreferences.edit()
+            .putBoolean("is_logged_in", true)
+            .putInt("logged_in_user_id", userId)
+            .apply()
     }
 
     private fun navigateToHome() {

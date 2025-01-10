@@ -18,6 +18,7 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
     private lateinit var endDateInput: EditText
     private lateinit var databaseHelper: DatabaseHelper
     private val dateFormatter = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    private var userId: Int = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,6 +27,12 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
         startDateInput = view.findViewById(R.id.startDateInput)
         endDateInput = view.findViewById(R.id.endDateInput)
         databaseHelper = DatabaseHelper(requireContext())
+
+        userId = arguments?.getInt("user_id") ?: -1
+        if (userId == -1) {
+            Toast.makeText(requireContext(), "Błąd: użytkownik nie jest zalogowany!", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val buttonPrevWeek = view.findViewById<Button>(R.id.buttonPrevWeek)
         val buttonThisWeek = view.findViewById<Button>(R.id.buttonThisWeek)
@@ -123,7 +130,7 @@ class CostsFragment : Fragment(R.layout.fragment_costs) {
     }
 
     private fun calculateCosts(startDate: Date, endDate: Date) {
-        val subscriptions = databaseHelper.getAllSubscriptions()
+        val subscriptions = databaseHelper.getSubscriptionsForUser(userId)
         val totalCost = subscriptions.sumOf { subscription ->
             calculateSubscriptionCosts(subscription, startDate, endDate)
         }
