@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="edit_text_text">#FFFFFF</color> <!-- Biały tekst -->
-    <color name="edit_text_hint">#CCCCCC</color> <!-- Jasnoszara podpowiedź -->
-    <color name="edit_text_background">#333333</color> <!-- Ciemne tło pola -->
+    <color name="edit_text_text">#FFFFFF</color>
+    <color name="edit_text_hint">#CCCCCC</color>
+    <color name="edit_text_background">#333333</color>
 </resources>

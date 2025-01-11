@@ -25,6 +25,5 @@
         <item name="android:subtitleTextColor">@color/white</item>
     </style>
     <style name="Theme.Subs1" parent="Theme.Inzynierka">
-        <!-- Additional customization if needed -->
     </style>
 </resources>
