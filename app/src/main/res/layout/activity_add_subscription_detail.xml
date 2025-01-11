@@ -24,17 +24,17 @@
             android:background="?attr/colorSurface"
             android:elevation="4dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/selectedImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:src="@drawable/empty_placeholder_icon"
                 android:scaleType="centerCrop"
-                android:background="@drawable/circular_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_marginBottom="16dp" />
+                app:strokeWidth="2dp"
+                app:shapeAppearanceOverlay="@style/RoundedImageShape"
+                android:layout_marginBottom="35dp" />
+
 
             <EditText
                 android:id="@+id/nameInput"

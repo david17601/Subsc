@@ -126,6 +126,11 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
                 )
                 if (added) {
                     Toast.makeText(this, "Subskrypcja dodana!", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this, Subs1Activity::class.java)
+                    intent.putExtra("USER_ID", userId)
+                    startActivity(intent)
+
                     finish()
                 } else {
                     Toast.makeText(this, "Błąd podczas dodawania subskrypcji!", Toast.LENGTH_SHORT).show()
