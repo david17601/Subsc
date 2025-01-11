@@ -22,6 +22,7 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
     private lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
     private var selectedImage: Bitmap? = null
     private var selectedFrequency: Frequency = Frequency.MONTHLY
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +38,23 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
         val iconImageView = findViewById<ImageView>(R.id.selectedImageView)
         val backToPopularButton = findViewById<TextView>(R.id.backToPopularButton)
 
+        userId = intent.getIntExtra("USER_ID", -1)
+        if (userId == -1) {
+            Toast.makeText(this, "Błąd: użytkownik nie został poprawnie zidentyfikowany.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
         priceInput.doAfterTextChanged {
             if (!it.isNullOrEmpty() && !it.endsWith(" zł")) {
-                priceInput.setText("${it} zł")
-                priceInput.setSelection(priceInput.text.length - 3)
+                val text = "$it zł"
+                priceInput.setText(text)
+                priceInput.setSelection(text.length - 3)
             }
         }
 
         val subscriptionName = intent.getStringExtra("SUBSCRIPTION_NAME")
         val subscriptionIcon = intent.getIntExtra("SUBSCRIPTION_ICON", -1)
-
 
         if (!subscriptionName.isNullOrEmpty() && subscriptionName != "Dodaj własną") {
             nameInput.setText(subscriptionName)
@@ -113,7 +121,8 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
                     price = price,
                     renewalDate = startDate,
                     frequency = selectedFrequency,
-                    icon = selectedImage?.let { bitmapToByteArray(it) }
+                    icon = selectedImage?.let { bitmapToByteArray(it) },
+                    userId = userId
                 )
                 if (added) {
                     Toast.makeText(this, "Subskrypcja dodana!", Toast.LENGTH_SHORT).show()
@@ -125,7 +134,6 @@ class AddSubscriptionDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Proszę wypełnić wszystkie pola!", Toast.LENGTH_SHORT).show()
             }
         }
-
 
         backToPopularButton.setOnClickListener {
             finish()

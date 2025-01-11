@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Nowa Subskrypcja"
         android:textSize="18sp"
+        android:gravity="center"
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
