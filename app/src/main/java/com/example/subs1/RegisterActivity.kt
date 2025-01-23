@@ -3,6 +3,7 @@ package com.example.subs1
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -31,6 +32,11 @@ class RegisterActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(this, "Podaj poprawny adres e-mail", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 val db = dbHelper.readableDatabase
                 val cursor = db.rawQuery("SELECT * FROM users WHERE email = ? OR login = ?", arrayOf(email, name))
                 if (cursor.count > 0) {
